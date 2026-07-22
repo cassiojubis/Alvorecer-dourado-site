@@ -89,12 +89,32 @@ menuToggle.addEventListener("click", function(){
 
 menuLinks.forEach(function(link){
 
-    link.addEventListener("click", function(){
+    link.addEventListener("click", function(event){
+
+        const targetId = link.getAttribute("href");
+        const targetSection = document.querySelector(targetId);
+
+        if(targetSection){
+            event.preventDefault();
+        }
 
         menuToggle.classList.remove("active");
         navLinks.classList.remove("active");
 
         document.body.classList.remove("menu-open");
+
+        if(targetSection){
+            requestAnimationFrame(function(){
+
+                targetSection.scrollIntoView({
+                    behavior:"smooth",
+                    block:"start"
+                });
+
+                history.pushState(null, "", targetId);
+
+            });
+        }
 
     });
 
